@@ -24,7 +24,7 @@ except Exception:
     PYMCA_AVAILABLE = False
 
 try:
-    from PyQt5 import QtCore, QtWidgets
+    from PyQt5 import QtCore, QtGui, QtWidgets
     from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
     from matplotlib.figure import Figure
 except Exception as exc:
@@ -227,6 +227,17 @@ class MainWindow(QtWidgets.QMainWindow):
         top_bar.setObjectName("topBar")
         top_layout = QtWidgets.QGridLayout(top_bar)
         top_layout.setContentsMargins(14, 10, 14, 10)
+        logo_path = Path(__file__).resolve().parent / "fIZDNpp4w.webp"
+        self.logo_label = QtWidgets.QLabel()
+        self.logo_label.setObjectName("appLogo")
+        self.logo_label.setAlignment(QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter)
+        if logo_path.exists():
+            pixmap = QtGui.QPixmap(str(logo_path))
+            if not pixmap.isNull():
+                self.logo_label.setPixmap(
+                    pixmap.scaledToHeight(96, QtCore.Qt.SmoothTransformation)
+                )
+        self.logo_label.setFixedHeight(104)
         title = QtWidgets.QLabel(APP_TITLE)
         title.setObjectName("appTitle")
         title.setAlignment(QtCore.Qt.AlignCenter)
@@ -241,7 +252,7 @@ class MainWindow(QtWidgets.QMainWindow):
         top_layout.setColumnStretch(0, 1)
         top_layout.setColumnStretch(1, 2)
         top_layout.setColumnStretch(2, 1)
-        top_layout.addItem(QtWidgets.QSpacerItem(10, 10), 0, 0)
+        top_layout.addWidget(self.logo_label, 0, 0, 1, 1, QtCore.Qt.AlignLeft)
         top_layout.addWidget(title, 0, 1, 1, 1)
         top_layout.addLayout(right_box, 0, 2, 1, 1, QtCore.Qt.AlignRight)
         main_layout.addWidget(top_bar)
@@ -641,7 +652,7 @@ class MainWindow(QtWidgets.QMainWindow):
                   border-radius: 12px;
                 }
                 QLabel#appTitle {
-                  font-size: 18px;
+                  font-size: 22px;
                   font-weight: 600;
                 }
                 QLabel#appSubtitle {
@@ -762,7 +773,7 @@ class MainWindow(QtWidgets.QMainWindow):
               border-radius: 12px;
             }
             QLabel#appTitle {
-              font-size: 18px;
+              font-size: 22px;
               font-weight: 600;
             }
             QLabel#appSubtitle {
